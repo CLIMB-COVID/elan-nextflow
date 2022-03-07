@@ -9,8 +9,6 @@ process save_manifest {
     output:
     file 'majora.metadata.tsv'
 
-    publishDir path: "${params.artifacts_root}/elan/${params.datestamp}/", pattern: "majora.metadata.tsv", mode: "copy", overwrite: true
-
     """
     ocarina --oauth --quiet --profile ${params.ocarina_profile} get sequencing --run-name '*' --faster --tsv --task-wait-attempts 90 --task-wait > majora.metadata.tsv
     """
@@ -28,7 +26,7 @@ process resolve_uploads {
     
     publishDir path: "${params.artifacts_root}/elan/${params.datestamp}/", pattern: "files.ls", mode: "copy", overwrite: true, saveAs: { filename -> "elan.manifest.ls" }
     publishDir path: "${params.artifacts_root}/elan/${params.datestamp}/", pattern: "files.err", mode: "copy", overwrite: true, saveAs: { filename -> "elan.missing.ls" }
-        
+    publishDir path: "${params.artifacts_root}/elan/${params.datestamp}/", pattern: "${manifest}", mode: "copy", overwrite: true
     
     """
     find ${params.uploads} -type f -name "*fa*" | grep -v '\\.fai\$' | ocarina_resolve.py --metadata ${manifest} --user-field ${params.uploads_usern} > files.ls 2> files.err
