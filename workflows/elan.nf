@@ -11,7 +11,7 @@ workflow inbound {
             saved_manifest = Channel.fromPath(params.inbound_manifest)
         }
         resolve_uploads(saved_manifest)
-        announce_uploads(saved_manifest, resolve_uploads.out)
+        announce_uploads(saved_manifest, resolve_uploads.out.elan_files_manifest, resolve_uploads.out.elan_files_unmatched)
 
         resolve_uploads.out.elan_files_manifest
             .splitCsv(header:[
