@@ -10,7 +10,7 @@ process save_manifest {
     file 'majora.metadata.tsv'
 
     """
-    ocarina --oauth --quiet --profile ${params.ocarina_profile} get sequencing --run-name '*' --faster --tsv --task-wait-attempts 90 --task-wait > majora.metadata.tsv
+    ocarina --oauth --quiet --profile ${params.ocarina_profile} get sequencing --run-name '*' --faster --tsv --task-wait-attempts 120 --task-wait > majora.metadata.tsv
     """
 }
 
